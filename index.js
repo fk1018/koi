@@ -6,7 +6,7 @@ const taskData = {
   proxy: {
     url: 'snkrs-us-S154.chicooked.io:33128',
     userName: '8HtvXIZ6!a1',
-    password: 'paseRasdiJw'
+    password: 'paseRiJw'
   },
   keywords: {
     positive: ['bt', 'dsrt', 'salt,'],
@@ -33,7 +33,7 @@ const taskData = {
     const $productsArr = Array.from(document.querySelectorAll(resultsSelector));
     return $productsArr.map($product => {
       const htmlString = $product.innerText.toLowerCase();
-      return htmlString;
+      
     });
   }, resultsSelector,d.keywords);
 
