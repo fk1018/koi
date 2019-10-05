@@ -29,14 +29,11 @@ const taskData = {
 
   await page.goto('https://yeezysupply.com/');
   await page.waitForSelector(resultsSelector);
-  const productsArr = await page.evaluate((resultsSelector,keywords) => {
+  const productText = await page.evaluate((resultsSelector,keywords) => {
     const $productsArr = Array.from(document.querySelectorAll(resultsSelector));
-    return $productsArr.map($product => {
-      const htmlString = $product.innerText.toLowerCase();
-      
-    });
+    return $productsArr.map($product=>$product.innerText.indexOf('DSRT')>=0);
   }, resultsSelector,d.keywords);
-
-  console.log(productsArr);
+  
+  console.log(productText);
   await browser.close();
 })(taskData);
