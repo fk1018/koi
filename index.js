@@ -4,12 +4,12 @@ const puppeteer = require('puppeteer');
 const resultsSelector = '.js-product-info';
 const taskData = {
   proxy: {
-    url: 'https://snkrs-us-S48.chicooked.io:33128',
-    userName: '8HtvXIZ6!a8',
-    password: 'paseRiJw'
+    url: 'snkrs-us-S154.chicooked.io:33128',
+    userName: '8HtvXIZ6!a1',
+    password: 'paseRasdiJw'
   },
   keywords: {
-    positive: ['hospital', 'blue', '700,'],
+    positive: ['bt', 'dsrt', 'salt,'],
     negative: ['infant', 'kid', 'kids', 'infants']
   },
   size: '10'
@@ -17,7 +17,7 @@ const taskData = {
 (async (d) => {
   const browser = await puppeteer.launch({
     args: [
-      d.proxy.url,
+      `--proxy-server=${d.proxy.url}`,
     ]
   });
 
@@ -29,29 +29,14 @@ const taskData = {
 
   await page.goto('https://yeezysupply.com/');
   await page.waitForSelector(resultsSelector);
-  const productArr = await page.evaluate(resultsSelector => {
-    const products = Array.from(document.querySelectorAll(resultsSelector));
-    const data = {
-      keywords: {
-        positive: ['hospital', 'blue', '700,'],
-        negative: ['infant', 'kid', 'kids', 'infants']
-      },
-    }
-    for (let product of products) {
-      const htmlString = product.innerText.trim().toLowerCase();
-      let valid = false;
-      for (let keyword in data.keywords.positive) {
-        if (htmlString.indexOf(keyword) >= 0) {
-          valid = true;
-        }
-      }
+  const productsArr = await page.evaluate((resultsSelector,keywords) => {
+    const $productsArr = Array.from(document.querySelectorAll(resultsSelector));
+    return $productsArr.map($product => {
+      const htmlString = $product.innerText.toLowerCase();
+      return htmlString;
+    });
+  }, resultsSelector,d.keywords);
 
-      if (valid === true) {
-        return htmlString;
-      }
-    }
-  }, resultsSelector);
-
-  console.log(productArr);
+  console.log(productsArr);
   await browser.close();
 })(taskData);
